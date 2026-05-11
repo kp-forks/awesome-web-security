@@ -12,7 +12,7 @@
 
 {similar_block}
 
-**語言路由建議**：`{language_routing_suggestion}`
+**Bot 對受眾的建議**：`{language_routing_suggestion}` _（僅供參考——條目的 `languages` 欄位才決定實際呈現）_
 
 **評分標準**：完整見 [RUBRIC.md](RUBRIC.md)（英文）。
 **申訴**：在此 PR 留言並 tag `@qazbnm456`。

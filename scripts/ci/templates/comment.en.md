@@ -12,7 +12,7 @@
 
 {similar_block}
 
-**Language routing**: `{language_routing_suggestion}`
+**Bot's audience suggestion**: `{language_routing_suggestion}` _(advisory — the entry's `languages` field controls actual rendering)_
 
 **Rubric**: See [RUBRIC.md](RUBRIC.md) for full scoring criteria.
 **Appeals**: Reply on this PR and tag `@qazbnm456`.

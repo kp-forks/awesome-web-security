@@ -12,7 +12,7 @@
 
 {similar_block}
 
-**言語ルーティング提案**：`{language_routing_suggestion}`
+**Bot からのオーディエンス提案**：`{language_routing_suggestion}` _（参考情報——エントリの `languages` フィールドが実際の表示を制御します）_
 
 **評価基準**：[RUBRIC.md](RUBRIC.md)（英語）を参照してください。
 **異議申立て**：この PR にコメントし、`@qazbnm456` をメンションしてください。

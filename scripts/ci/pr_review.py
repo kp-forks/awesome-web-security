@@ -480,11 +480,20 @@ def pr_body() -> str:
 
 
 def neighbors_for(entry: dict) -> list[dict]:
-    """Cheap heuristic: nearest neighbors from index.json filtered by category."""
+    """Cheap heuristic: nearest neighbors from index.json filtered by category.
+
+    Excludes the entry itself (matched by id). The PR branch's index.json
+    has already been regenerated to include the new entry, so without this
+    guard `neighbors_for` returns the entry as its own cosine-1.0 neighbor
+    and the bot flags `dedup_risk: 0` (near-duplicate) on every clean PR.
+    """
     if not INDEX_FILE.exists():
         return []
     idx = json.loads(INDEX_FILE.read_text(encoding="utf-8"))
-    same_cat = [e for e in idx.get("entries", []) if e.get("category") == entry.get("category")]
+    own_id = entry.get("id")
+    same_cat = [e for e in idx.get("entries", [])
+                if e.get("category") == entry.get("category")
+                and e.get("id") != own_id]
     title = (entry.get("title") or "").lower()
     title_terms = set(re.findall(r"[a-z0-9]+", title))
     scored: list[tuple[float, dict]] = []
