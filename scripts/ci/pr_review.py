@@ -291,9 +291,17 @@ def llm_grade(entry: dict, neighbors: list[dict], pr_text: str) -> dict | None:
 
 # CJK Unified Ideographs + Hiragana + Katakana + Hangul + CJK compat blocks.
 # Used to detect when the LLM emitted a non-English reason in an English-
-# template comment (or vice versa).
+# template comment (or vice versa). Codepoint ranges are spelled out as
+# \uXXXX escapes so the regex is readable in a diff (the inline-character
+# form, e.g. `一-鿿`, works identically but reads as gibberish).
 _CJK_RE = re.compile(
-    r"[぀-ヿ㐀-䶿一-鿿가-힯豈-﫿]"
+    "["
+    "\u3040-\u30FF"   # Hiragana + Katakana
+    "\u3400-\u4DBF"   # CJK Unified Ideographs Extension A
+    "\u4E00-\u9FFF"   # CJK Unified Ideographs (main block)
+    "\uAC00-\uD7AF"   # Hangul Syllables
+    "\uF900-\uFAFF"   # CJK Compatibility Ideographs
+    "]"
 )
 
 
