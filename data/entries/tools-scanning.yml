@@ -61,7 +61,7 @@ entries:
     languages: [en, zh, jp]
     difficulty: intermediate
     date_added: "2020-10-05"
-    archive_url: null
+    archive_url: "https://web.archive.org/web/20260511153720/https://github.com/projectdiscovery/nuclei"
     last_checked: null
     fingerprint: null
     status: active
@@ -77,7 +77,7 @@ entries:
     languages: [en, zh, jp]
     difficulty: intro
     date_added: "2026-05-11"
-    archive_url: null
+    archive_url: "https://web.archive.org/web/20260511151417/https://www.zaproxy.org/"
     last_checked: null
     fingerprint: null
     status: active
