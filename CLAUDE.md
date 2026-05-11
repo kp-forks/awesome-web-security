@@ -89,10 +89,17 @@ YAML data, Python tooling, or Markdown docs.
 
 Optional fields:
 
-- `raw_rest` preserves the original "rest of line" from the historical
-  README (used by the generator to retain multi-author or non-standard
-  phrasings). Leave it as the migrator wrote it unless you have reason to
-  rewrite.
+- `raw_rest` is the README description text that follows the title link
+  (the generator emits `- [Title](url) - {raw_rest}.`). It is **public-facing,
+  third-party-readable** content; treat it like user-facing copy.
+  - DO include: a one-sentence factual description of what the resource is,
+    optionally followed by a `Written by [Author](url)` byline.
+  - DO NOT include: references to this project, issue/PR numbers, phrases
+    like "originally proposed by", or any internal metadata. Git history
+    already preserves attribution; a third-party reader of the README must
+    not infer that the entry has any historical relationship to this repo.
+  - Leave migrator-written values as-is; only rewrite when the original is
+    wrong or stale.
 - `archive_opt_out: true` skips Wayback Machine archiving for this entry.
   Set this only when the original author has explicitly asked not to be
   archived (paywalled content, takedown requests). Defaults to false.
@@ -142,6 +149,37 @@ controls where it shows up:
 - Do not force-translate or force-mirror an entry across languages to
   "match" the structure. Each README is allowed to have entries the others
   don't.
+
+## Driving the Copilot Coding Agent
+
+The maintainer's standard workflow for an Issue Form submission is to
+assign `@copilot` and let it open a PR. Use this prompt shape when you
+need to bridge from a structured issue to a YAML entry:
+
+```
+@copilot please port this resource into the new YAML data model.
+
+Add it to `data/entries/<TARGET>.yml` with:
+- url, title, author.name, author.url (from the issue fields)
+- type: <article|tool|cheatsheet|video|book|community|payload-list>
+- difficulty: <intro|intermediate|advanced>
+- languages: [en] (or [en, zh, jp] for universal; never use [universal] as
+  the single value without confirming with the maintainer)
+- status: active
+
+Set `raw_rest` to a one-sentence factual description of the resource
+itself, optionally followed by a `Written by [Author](url)` byline. Do
+NOT mention this project, the issue number, the PR number, or any
+internal metadata in `raw_rest`. Attribution lives in git history and
+in the PR body's `Closes #<n>` line, not in the README text.
+
+Run `python3 scripts/generate.py` and `python3 scripts/verify_schema.py`
+before opening the PR. Close the issue from the PR body with
+`Closes #<n>`.
+```
+
+Adjust `<TARGET>`, `type`, `difficulty`, `languages`, and which issue
+number to close per case.
 
 ## Things not to do
 

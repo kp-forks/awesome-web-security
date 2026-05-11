@@ -220,7 +220,12 @@ Output a single JSON object matching this schema exactly:
 }
 
 Rules:
-- All `*_reason` fields should be in the contributor's language if confidence is high; else English.
+- Decide the OUTPUT language exactly once:
+  * If `contributor_language_confidence` is "high" AND `contributor_language` is "zh" or "jp",
+    output language = that language.
+  * In every other case (including "medium"/"low" confidence, "en", "other"), output language = English.
+- All `*_reason` fields AND the `summary` field MUST be in the chosen output language.
+  Mixed-language output (e.g., English template with Chinese reasons) is forbidden.
 - Dimension names (Reachability/Format/Depth/Fit/Dedup) are rubric keys; do not translate them.
 - Output JSON only, no prose around it.
 """
@@ -284,6 +289,35 @@ def llm_grade(entry: dict, neighbors: list[dict], pr_text: str) -> dict | None:
 # Comment assembly
 # ---------------------------------------------------------------------------
 
+# CJK Unified Ideographs + Hiragana + Katakana + Hangul + CJK compat blocks.
+# Used to detect when the LLM emitted a non-English reason in an English-
+# template comment (or vice versa).
+_CJK_RE = re.compile(
+    r"[぀-ヿ㐀-䶿一-鿿가-힯豈-﫿]"
+)
+
+
+def has_cjk(text) -> bool:
+    return bool(_CJK_RE.search(str(text or "")))
+
+
+def pick_template_lang(lang: str | None, confidence: str | None) -> str:
+    """The single source of truth for which template language we render."""
+    if confidence == "high" and lang in ("zh", "jp"):
+        return lang
+    return "en"
+
+
+def harmonize_reason(text: str, template_lang: str) -> str:
+    """If the LLM emitted a reason in the wrong language for the picked
+    template, replace it with a safe fallback so the comment doesn't read
+    half-English half-CJK.
+    """
+    if template_lang == "en" and has_cjk(text):
+        return "(LLM emitted non-English reason; see score above)"
+    return text
+
+
 def clamp_dim(value) -> int:
     """Coerce an LLM-supplied score to the 0..3 range."""
     try:
@@ -326,11 +360,10 @@ def label_for(score: int, dims: dict) -> str:
     return "auto/needs-major-revision"
 
 
-def pick_template(lang: str | None, confidence: str | None) -> str:
-    if confidence == "high" and lang in ("zh", "jp"):
-        path = TEMPLATES_DIR / f"comment.{lang}.md"
-        if path.exists():
-            return path.read_text(encoding="utf-8")
+def pick_template(template_lang: str) -> str:
+    path = TEMPLATES_DIR / f"comment.{template_lang}.md"
+    if path.exists():
+        return path.read_text(encoding="utf-8")
     return (TEMPLATES_DIR / "comment.en.md").read_text(encoding="utf-8")
 
 
@@ -377,20 +410,29 @@ def render_comment(scored: dict, deterministic_fallback: bool) -> tuple[str, str
     if routing not in SAFE_LANG_ROUTING:
         routing = "en"
 
-    tmpl = pick_template(lang, conf)
+    template_lang = pick_template_lang(lang, conf)
+    tmpl = pick_template(template_lang)
+
+    # Defensive: if the LLM ignored its instructions and emitted CJK in
+    # English-template territory (or some future inverse), swap the reason
+    # for a safe placeholder so the comment doesn't read half-mixed.
+    def cell(key: str) -> str:
+        raw = scored.get(key)
+        return sanitize_reason(harmonize_reason(raw, template_lang))
+
     body = tmpl.format(
         score=total,
         label=label,
         reachability=dims["reachability"],
-        reachability_reason=sanitize_reason(scored.get("reachability_reason")),
+        reachability_reason=cell("reachability_reason"),
         format=dims["format"],
-        format_reason=sanitize_reason(scored.get("format_reason")),
+        format_reason=cell("format_reason"),
         depth=dims["depth"],
-        depth_reason=sanitize_reason(scored.get("depth_reason")),
+        depth_reason=cell("depth_reason"),
         fit=dims["fit"],
-        fit_reason=sanitize_reason(scored.get("fit_reason")),
+        fit_reason=cell("fit_reason"),
         dedup_risk=dims["dedup_risk"],
-        dedup_reason=sanitize_reason(scored.get("dedup_reason")),
+        dedup_reason=cell("dedup_reason"),
         similar_block=render_similar(scored.get("similar_entries") or []),
         language_routing_suggestion=routing,
     )
