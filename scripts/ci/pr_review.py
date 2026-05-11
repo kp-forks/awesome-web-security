@@ -199,36 +199,37 @@ def check_format(entry: dict, categories: set[str]) -> tuple[int, str]:
 # LLM grading
 # ---------------------------------------------------------------------------
 
-LLM_SYSTEM = """You are reviewing one entry proposed for awesome-web-security, a curated
+LLM_SYSTEM_TEMPLATE = """You are reviewing one entry proposed for awesome-web-security, a curated
 Markdown list of web security learning resources. Grade strictly against the
 five-dimension rubric. Never auto-approve or auto-reject; your output is
 advisory only.
 
+OUTPUT LANGUAGE: {target_lang_name} ({target_lang_code}).
+All `*_reason` field values MUST be written in {target_lang_name}. Do NOT use
+any other natural language. The contributor's language was classified
+deterministically before this prompt; do not second-guess it.
+
 Output a single JSON object matching this schema exactly:
-{
+{{
   "reachability": int 0-3, "reachability_reason": "...",
   "format": int 0-3, "format_reason": "...",
   "depth": int 0-3, "depth_reason": "...",
   "fit": int 0-3, "fit_reason": "...",
   "dedup_risk": int 0-3, "dedup_reason": "...",
-  "similar_entries": [{"id": "...", "cosine": 0.0}],
+  "similar_entries": [{{"id": "...", "cosine": 0.0}}],
   "language_routing_suggestion": "en|zh|jp|universal",
-  "contributor_language": "en|zh|jp|other",
-  "contributor_language_confidence": "high|medium|low",
-  "summary": "1-2 sentence verdict in the contributor's language if high confidence else English",
   "blocking_issues": []
-}
+}}
 
-Rules:
-- Decide the OUTPUT language exactly once:
-  * If `contributor_language_confidence` is "high" AND `contributor_language` is "zh" or "jp",
-    output language = that language.
-  * In every other case (including "medium"/"low" confidence, "en", "other"), output language = English.
-- All `*_reason` fields AND the `summary` field MUST be in the chosen output language.
-  Mixed-language output (e.g., English template with Chinese reasons) is forbidden.
-- Dimension names (Reachability/Format/Depth/Fit/Dedup) are rubric keys; do not translate them.
-- Output JSON only, no prose around it.
+`language_routing_suggestion` is about which README(s) the entry belongs in
+based on the resource's audience; it is NOT the output-language directive
+above.
+
+Dimension names (Reachability/Format/Depth/Fit/Dedup) are rubric keys; do
+not translate them. Output JSON only, no prose around it.
 """
+
+_LANG_NAME = {"en": "English", "zh": "Simplified Chinese", "jp": "Japanese"}
 
 
 def call_models(model: str, payload: dict) -> dict | None:
@@ -248,7 +249,7 @@ def call_models(model: str, payload: dict) -> dict | None:
     return body
 
 
-def llm_grade(entry: dict, neighbors: list[dict], pr_text: str) -> dict | None:
+def llm_grade(entry: dict, neighbors: list[dict], target_lang: str) -> dict | None:
     user_prompt = json.dumps({
         "entry": {
             "id": entry.get("id"),
@@ -261,13 +262,17 @@ def llm_grade(entry: dict, neighbors: list[dict], pr_text: str) -> dict | None:
             "languages": entry.get("languages"),
         },
         "nearest_existing_entries_in_same_category": neighbors[:5],
-        "pr_body_for_language_detection": pr_text[:2000],
     }, ensure_ascii=False)
+
+    system_prompt = LLM_SYSTEM_TEMPLATE.format(
+        target_lang_code=target_lang,
+        target_lang_name=_LANG_NAME.get(target_lang, "English"),
+    )
 
     body = call_models(DEFAULT_MODEL, {
         "model": DEFAULT_MODEL,
         "messages": [
-            {"role": "system", "content": LLM_SYSTEM},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
         "temperature": 0.0,
@@ -309,11 +314,31 @@ def has_cjk(text) -> bool:
     return bool(_CJK_RE.search(str(text or "")))
 
 
-def pick_template_lang(lang: str | None, confidence: str | None) -> str:
-    """The single source of truth for which template language we render."""
-    if confidence == "high" and lang in ("zh", "jp"):
-        return lang
+# Sub-ranges of _CJK_RE, used to distinguish Japanese (Kana present) from
+# Chinese (Han only).
+_HAN_RE = re.compile("[㐀-䶿一-鿿豈-﫿]")
+_KANA_RE = re.compile("[぀-ヿ]")
+
+
+def detect_lang(text) -> str:
+    """Best-effort language classification on the contributor's PR body.
+
+    Deterministic: no LLM, no library. Returns "en", "zh", or "jp".
+    Korean Hangul and any other script falls back to English.
+    """
+    s = str(text or "")
+    if not s:
+        return "en"
+    if _KANA_RE.search(s):
+        return "jp"
+    if _HAN_RE.search(s):
+        return "zh"
     return "en"
+
+
+def pick_template_lang(target_lang: str | None) -> str:
+    """Validate and clamp the detected language to a template we ship."""
+    return target_lang if target_lang in ("en", "zh", "jp") else "en"
 
 
 def harmonize_reason(text: str, template_lang: str) -> str:
@@ -393,7 +418,7 @@ def render_similar(similar: list[dict]) -> str:
 SAFE_LANG_ROUTING = {"en", "zh", "jp", "tr", "universal"}
 
 
-def render_comment(scored: dict, deterministic_fallback: bool) -> tuple[str, str]:
+def render_comment(scored: dict, target_lang: str, deterministic_fallback: bool) -> tuple[str, str]:
     # Clamp every dim into 0..3. LLM-supplied scores are not trusted; prompt
     # injection from the PR body could otherwise emit `"format": 999` and
     # flip the bot into auto/format-ok on a bad entry.
@@ -407,18 +432,11 @@ def render_comment(scored: dict, deterministic_fallback: bool) -> tuple[str, str
     total = sum(dims.values())
     label = label_for(total, dims)
 
-    lang = scored.get("contributor_language", "en")
-    if lang not in ("en", "zh", "jp"):
-        lang = "en"
-    conf = scored.get("contributor_language_confidence", "low")
-    if conf not in ("high", "medium", "low"):
-        conf = "low"
-
     routing = scored.get("language_routing_suggestion", "en")
     if routing not in SAFE_LANG_ROUTING:
         routing = "en"
 
-    template_lang = pick_template_lang(lang, conf)
+    template_lang = pick_template_lang(target_lang)
     tmpl = pick_template(template_lang)
 
     # Defensive: if the LLM ignored its instructions and emitted CJK in
@@ -520,13 +538,18 @@ def main() -> int:
         return 0
 
     pr = pr_body()
+    # Classify contributor language ONCE per run from the PR body. The LLM
+    # gets this as a directive (input), not as something to detect (output).
+    target_lang = detect_lang(pr)
+    print(f"detected contributor language: {target_lang}")
+
     summaries: list[tuple[str, str]] = []   # (comment, label)
     for entry in entries:
         # Deterministic baseline
         reach_score, reach_reason = check_reachability(entry.get("url", ""))
         fmt_score, fmt_reason = check_format(entry, cats)
         neighbors = neighbors_for(entry)
-        scored = llm_grade(entry, neighbors, pr)
+        scored = llm_grade(entry, neighbors, target_lang)
         fallback = False
         if scored is None:
             fallback = True
@@ -538,8 +561,6 @@ def main() -> int:
                 "dedup_risk": 2, "dedup_reason": f"top neighbor cosine ~{neighbors[0]['cosine'] if neighbors else 0}",
                 "similar_entries": neighbors,
                 "language_routing_suggestion": (entry.get("languages") or ["en"])[0],
-                "contributor_language": "en",
-                "contributor_language_confidence": "low",
             }
         else:
             # always merge in deterministic reach + format scores (LLM tends to over-rate reachability)
@@ -548,7 +569,7 @@ def main() -> int:
             scored["format"] = fmt_score
             scored["format_reason"] = fmt_reason
 
-        body, label = render_comment(scored, fallback)
+        body, label = render_comment(scored, target_lang, fallback)
         body = f"#### Entry: `{entry.get('id')}`\n\n" + body
         summaries.append((body, label))
 
