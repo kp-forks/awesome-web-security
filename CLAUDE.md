@@ -29,7 +29,11 @@ YAML data, Python tooling, or Markdown docs.
 - `scripts/verify_anchors.py` — ensures no anchor used by external links is
   removed; CI gate.
 - `scripts/verify_skill.sh` — lints `marketplace.json` and `SKILL.md`.
-- `scripts/ci/pr_review.py` — auto-review bot (GitHub Models LLM grader).
+- `scripts/ci/pr_review.py` — auto-review bot. Default LLM is
+  `openai/gpt-4.1-mini` via GitHub Models; override via the `REVIEW_MODEL`
+  env var in the workflow. Contributor language is detected
+  deterministically (Han / Kana regex on PR body) and passed to the LLM
+  as a directive; the LLM never owns language detection.
 - `scripts/ci/templates/comment.{en,zh,jp}.md` — localized review comments.
 - `.github/workflows/pr-review.yml` — runs the bot on every PR.
 - `.github/workflows/pr-review-backlog.yml` — dry-run over open PRs (manual,
