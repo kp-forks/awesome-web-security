@@ -66,3 +66,19 @@ entries:
     fingerprint: null
     status: active
     raw_rest: "A set of tools for building/evaluating/monitoring content-security-policy to prevent/detect cross site scripting by [Csper](https://csper.io)."
+  - id: tools-preventing-uusec-waf
+    url: "https://github.com/Safe3/uusec-waf/"
+    title: UUSEC WAF
+    author:
+      name: UUCORP
+      url: "https://github.com/Safe3/"
+    category: tools-preventing
+    type: tool
+    languages: [en, zh]
+    difficulty: intro
+    date_added: "2026-05-11"
+    archive_url: null
+    last_checked: null
+    fingerprint: null
+    status: active
+    raw_rest: "An open-source web application firewall and API security gateway maintained by [UUCORP](https://github.com/Safe3/)."

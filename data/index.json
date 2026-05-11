@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-11T18:26:57Z",
+  "generated_at": "2026-05-11T18:27:32Z",
   "categories": [
     {
       "key": "digests",
@@ -7629,6 +7629,26 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2020-05-09",
+      "archive_url": null,
+      "last_checked": null,
+      "status": "active"
+    },
+    {
+      "id": "tools-preventing-uusec-waf",
+      "url": "https://github.com/Safe3/uusec-waf/",
+      "title": "UUSEC WAF",
+      "author": {
+        "name": "UUCORP",
+        "url": "https://github.com/Safe3/"
+      },
+      "category": "tools-preventing",
+      "type": "tool",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "difficulty": "intro",
+      "date_added": "2026-05-11",
       "archive_url": null,
       "last_checked": null,
       "status": "active"
