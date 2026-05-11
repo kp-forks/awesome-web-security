@@ -43,7 +43,7 @@ from generate import parse_yaml  # noqa: E402
 
 GH_API = "https://api.github.com"
 GH_MODELS = "https://models.github.ai/inference"
-DEFAULT_MODEL = os.environ.get("REVIEW_MODEL", "openai/gpt-4o-mini")
+DEFAULT_MODEL = os.environ.get("REVIEW_MODEL", "openai/gpt-4.1-mini")
 EMBED_MODEL = os.environ.get("REVIEW_EMBED_MODEL", "cohere/Cohere-embed-v3-multilingual")
 
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
