@@ -88,6 +88,15 @@ body:
     validations:
       required: true
   - type: checkboxes
+    id: archive_opt_out
+    attributes:
+      label: Wayback Machine archiving
+      description: |
+        Accepted entries are submitted to web.archive.org by default to protect against link rot. Uncheck if the original author has explicitly requested no archive (e.g. paywalled or under takedown).
+      options:
+        - label: "Skip Wayback Machine archiving for this entry"
+          required: false
+  - type: checkboxes
     id: confirm
     attributes:
       label: Author confirmation

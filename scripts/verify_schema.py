@@ -20,6 +20,9 @@ from generate import parse_yaml  # noqa: E402
 
 ENTRY_REQUIRED = ("id", "url", "title", "category", "type", "languages",
                   "difficulty", "date_added", "status")
+# Fields that may appear on an entry but are not required.
+ENTRY_OPTIONAL = ("author", "subcategory", "archive_url", "last_checked",
+                  "fingerprint", "raw_rest", "notes", "archive_opt_out")
 TYPE_VALUES = {"article", "tool", "cheatsheet", "video", "book", "community",
                "payload-list"}
 LANG_VALUES = {"en", "zh", "jp", "tr", "universal"}
@@ -71,6 +74,9 @@ def validate_entry(entry: dict, file_label: str, category_keys: set[str]) -> lis
 
     if "date_added" in entry and isinstance(entry["date_added"], str) and not DATE_RE.match(entry["date_added"]):
         errs.append(f"{file_label}:{eid} date_added must be YYYY-MM-DD")
+
+    if "archive_opt_out" in entry and not isinstance(entry["archive_opt_out"], bool):
+        errs.append(f"{file_label}:{eid} archive_opt_out must be true or false, got {entry['archive_opt_out']!r}")
 
     return errs
 

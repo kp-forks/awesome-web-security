@@ -232,10 +232,21 @@ def render_toc(sections: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def entry_matches_lang(entry: dict, lang: str) -> bool:
+    """True if this entry should appear in the README for `lang`.
+
+    An entry with `languages: [universal]` matches every language (it is
+    rendered in all three READMEs). Otherwise the lang must be in the
+    explicit list.
+    """
+    langs = entry.get("languages") or []
+    return lang in langs or "universal" in langs
+
+
 def render_section(sec: dict, entries: list[dict], lang: str) -> str:
     """Render a section heading + filtered entries for the given language."""
     matching = [e for e in entries if e.get("category") == sec["key"]
-                and lang in (e.get("languages") or [])
+                and entry_matches_lang(e, lang)
                 and e.get("status", "active") == "active"]
     # Skip empty sections that aren't structural containers.
     # A section is a "container" if it has any descendant section with entries.
@@ -254,7 +265,7 @@ def render_section(sec: dict, entries: list[dict], lang: str) -> str:
 def has_descendants_with_entries(sec_key: str, sections: list[dict], entries_by_cat: dict[str, list[dict]], lang: str) -> bool:
     for s in sections:
         if s.get("parent") == sec_key:
-            if any(lang in (e.get("languages") or []) for e in entries_by_cat.get(s["key"], [])):
+            if any(entry_matches_lang(e, lang) for e in entries_by_cat.get(s["key"], [])):
                 return True
             if has_descendants_with_entries(s["key"], sections, entries_by_cat, lang):
                 return True
@@ -282,7 +293,7 @@ def render_readme(lang: str, sections: list[dict], entries: list[dict]) -> str:
         # AND no explicit anchor_tag (anchors with no content must still be emitted
         # to preserve external links pointing at them).
         own = entries_by_cat.get(sec["key"], [])
-        own_match = [e for e in own if lang in (e.get("languages") or [])]
+        own_match = [e for e in own if entry_matches_lang(e, lang)]
         has_kids = has_descendants_with_entries(sec["key"], sections, entries_by_cat, lang)
         if not own_match and not has_kids and not sec.get("anchor_tag"):
             continue
