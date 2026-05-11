@@ -66,3 +66,19 @@ entries:
     fingerprint: null
     status: active
     raw_rest: "Nuclei is a fast tool for configurable targeted scanning based on templates offering massive extensibility and ease of use by [@projectdiscovery](https://github.com/projectdiscovery)."
+  - id: tools-scanning-zap
+    url: "https://zaproxy.org"
+    title: ZAP by Checkmarx
+    author:
+      name: ZAP Core Team
+      url: "https://www.zaproxy.org/docs/team/"
+    category: tools-scanning
+    type: tool
+    languages: [en, zh, jp]
+    difficulty: intro
+    date_added: "2026-05-11"
+    archive_url: null
+    last_checked: null
+    fingerprint: null
+    status: active
+    raw_rest: "Originally proposed in qazbnm456/awesome-web-security#172. Maintained by the ZAP Core Team; ran ~10M times in April 2026."
