@@ -77,7 +77,7 @@ entries:
     languages: [en, zh]
     difficulty: intro
     date_added: "2026-05-11"
-    archive_url: null
+    archive_url: "https://web.archive.org/web/20260511190003/https://github.com/Safe3/uusec-waf/"
     last_checked: null
     fingerprint: null
     status: active
