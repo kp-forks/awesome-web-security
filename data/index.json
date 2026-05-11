@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-11T14:22:42Z",
+  "generated_at": "2026-05-11T14:35:28Z",
   "categories": [
     {
       "key": "digests",
@@ -721,7 +721,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2018-02-23",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260511143006/https://portswigger.net/research/dom-based-angularjs-sandbox-escapes",
       "last_checked": null,
       "status": "active"
     },
@@ -783,7 +783,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2018-02-23",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260511143339/https://rhinosecuritylabs.com/penetration-testing/penetration-testing-aws-storage/",
       "last_checked": null,
       "status": "active"
     },

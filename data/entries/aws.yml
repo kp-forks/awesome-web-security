@@ -29,7 +29,7 @@ entries:
     languages: [en, zh, jp]
     difficulty: intermediate
     date_added: "2018-02-23"
-    archive_url: null
+    archive_url: "https://web.archive.org/web/20260511143339/https://rhinosecuritylabs.com/penetration-testing/penetration-testing-aws-storage/"
     last_checked: null
     fingerprint: null
     status: active
