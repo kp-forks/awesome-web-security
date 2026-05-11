@@ -125,7 +125,7 @@ entries:
     languages: [en, zh, jp]
     difficulty: intermediate
     date_added: "2020-08-26"
-    archive_url: null
+    archive_url: "https://web.archive.org/web/20260511151914/https://github.com/nil0x42/phpsploit"
     last_checked: null
     fingerprint: null
     status: active
