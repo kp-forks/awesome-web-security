@@ -1,0 +1,92 @@
+name: Health link check
+
+# Replaces the previous validate.yml (ad-m/report-link-action@master, unmaintained).
+# Runs lychee over the generated READMEs and data/index.json on a daily cron
+# and on every push to master. Broken links surface in a single rolling issue
+# labelled `health/link-check` rather than spamming new issues each run.
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'README.md'
+      - 'README-zh.md'
+      - 'README-jp.md'
+      - 'data/index.json'
+  schedule:
+    # Daily at 12:00 UTC, working days only
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: health-link-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run lychee
+        id: lychee
+        # Pin to commit SHA (v2.8.0) for supply-chain integrity. Update by
+        # bumping the SHA and the trailing comment together.
+        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 8
+            --cache
+            --max-cache-age 1d
+            --accept 200..=299,403,429
+            README.md
+            README-zh.md
+            README-jp.md
+            data/index.json
+          fail: false
+          output: lychee-report.md
+
+      - name: Surface broken links via rolling issue
+        if: steps.lychee.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -u
+
+          # Ensure the rolling-issue label exists. Idempotent: gh exits non-zero
+          # if the label already exists; suppress that and continue.
+          gh label create health/link-check \
+            --color C5DEF5 \
+            --description "Rolling link-health report from lychee" \
+            -R "$REPO" 2>/dev/null || true
+
+          # Find an existing open rolling issue (label: health/link-check).
+          existing=$(gh issue list -R "$REPO" \
+            --label health/link-check --state open \
+            --json number,title -q '.[0].number' || true)
+
+          # Prepend metadata (timestamp + run link) to the report.
+          {
+            echo "_Updated by [run $GITHUB_RUN_ID]($RUN_URL) at $(date -u +%Y-%m-%dT%H:%M:%SZ)._"
+            echo ""
+            cat lychee-report.md
+          } > issue-body.md
+
+          if [ -n "${existing}" ] && [ "${existing}" != "null" ]; then
+            gh issue comment "$existing" -R "$REPO" -F issue-body.md
+            echo "commented on rolling issue #$existing"
+          else
+            gh issue create -R "$REPO" \
+              --title "Link health report" \
+              --label health/link-check \
+              -F issue-body.md
+            echo "opened new rolling issue"
+          fi
