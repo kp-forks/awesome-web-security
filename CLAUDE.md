@@ -40,6 +40,10 @@ YAML data, Python tooling, or Markdown docs.
   generated READMEs and `data/index.json`; surfaces broken links via a single
   rolling issue labelled `health/link-check`. Replaces the previous
   `validate.yml`.
+- `.github/workflows/post-merge-archive.yml` — after merges that touch
+  `data/entries/**`, submits eligible entries (active, no `archive_url` yet,
+  not opted out) to Wayback Machine and commits the resulting `archive_url`
+  back to the YAML with `[skip ci]`. Driven by `scripts/ci/archive.py`.
 - `.github/ISSUE_TEMPLATE/propose-resource.yml` — GitHub Form for proposals.
 - `.github/PULL_REQUEST_TEMPLATE.md` — self-checklist mirroring RUBRIC.md.
 - `.claude-plugin/marketplace.json` — declares the Claude plugin / Skill
@@ -83,10 +87,18 @@ YAML data, Python tooling, or Markdown docs.
   status: active                                # active|dead|archived-only|quarantined
 ```
 
-Optional: `raw_rest` preserves the original "rest of line" from the
-historical README (used by the generator to retain multi-author or
-non-standard phrasings). Leave it as the migrator wrote it unless you have
-reason to rewrite.
+Optional fields:
+
+- `raw_rest` preserves the original "rest of line" from the historical
+  README (used by the generator to retain multi-author or non-standard
+  phrasings). Leave it as the migrator wrote it unless you have reason to
+  rewrite.
+- `archive_opt_out: true` skips Wayback Machine archiving for this entry.
+  Set this only when the original author has explicitly asked not to be
+  archived (paywalled content, takedown requests). Defaults to false.
+- `languages: [universal]` is a wildcard meaning "render this entry in
+  every language README". Use sparingly; prefer explicit `[en, zh, jp]` when
+  you know the audience exactly.
 
 ## Anchor preservation
 
