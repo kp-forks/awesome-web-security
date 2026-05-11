@@ -73,16 +73,52 @@ jobs:
             --label health/link-check --state open \
             --json number,title -q '.[0].number' || true)
 
-          # Prepend metadata (timestamp + run link) to the report.
+          # Prepend metadata (timestamp + run link) to the report. The
+          # resulting file is the canonical "current snapshot" that
+          # replaces the issue body each run.
           {
             echo "_Updated by [run $GITHUB_RUN_ID]($RUN_URL) at $(date -u +%Y-%m-%dT%H:%M:%SZ)._"
             echo ""
             cat lychee-report.md
           } > issue-body.md
 
+          # Extract current error count from the new report (best-effort).
+          extract_errors() {
+            grep -oE '🚫 Errors[[:space:]]*\|[[:space:]]*[0-9]+' "$1" 2>/dev/null \
+              | grep -oE '[0-9]+$' \
+              | head -1
+          }
+          new_errors=$(extract_errors lychee-report.md)
+          new_errors=${new_errors:-?}
+
           if [ -n "${existing}" ] && [ "${existing}" != "null" ]; then
-            gh issue comment "$existing" -R "$REPO" -F issue-body.md
-            echo "commented on rolling issue #$existing"
+            # Replace the issue body with the current snapshot so the top of
+            # the issue always shows "what's broken right now". Keep the
+            # comment thread as an audit log of which run did what.
+            prev_body_file=$(mktemp)
+            gh issue view "$existing" -R "$REPO" --json body -q .body > "$prev_body_file" || true
+            prev_errors=$(extract_errors "$prev_body_file")
+            prev_errors=${prev_errors:-?}
+
+            # Compute delta when both counts are numeric; otherwise show "—".
+            if [[ "$new_errors" =~ ^[0-9]+$ ]] && [[ "$prev_errors" =~ ^[0-9]+$ ]]; then
+              delta=$((new_errors - prev_errors))
+              if [ "$delta" -gt 0 ]; then
+                delta_str="+${delta} (worse)"
+              elif [ "$delta" -lt 0 ]; then
+                delta_str="${delta} (better)"
+              else
+                delta_str="±0"
+              fi
+            else
+              delta_str="—"
+            fi
+
+            gh issue edit "$existing" -R "$REPO" --body-file issue-body.md
+            gh issue comment "$existing" -R "$REPO" \
+              -b "Run [#$GITHUB_RUN_ID]($RUN_URL): ${new_errors} errors (Δ ${delta_str} vs previous). See body above for the current snapshot."
+            rm -f "$prev_body_file"
+            echo "updated rolling issue #$existing (errors: $new_errors, delta: $delta_str)"
           else
             gh issue create -R "$REPO" \
               --title "Link health report" \
