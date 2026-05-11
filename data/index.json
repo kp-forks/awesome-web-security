@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-11T10:47:58Z",
+  "generated_at": "2026-05-11T14:22:42Z",
   "categories": [
     {
       "key": "digests",
@@ -7755,6 +7755,27 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2020-10-05",
+      "archive_url": null,
+      "last_checked": null,
+      "status": "active"
+    },
+    {
+      "id": "tools-scanning-zap",
+      "url": "https://zaproxy.org",
+      "title": "ZAP by Checkmarx",
+      "author": {
+        "name": "ZAP Core Team",
+        "url": "https://www.zaproxy.org/docs/team/"
+      },
+      "category": "tools-scanning",
+      "type": "tool",
+      "languages": [
+        "en",
+        "zh",
+        "jp"
+      ],
+      "difficulty": "intro",
+      "date_added": "2026-05-11",
       "archive_url": null,
       "last_checked": null,
       "status": "active"
