@@ -166,6 +166,14 @@ def main() -> int:
         print("no entries need archiving")
         return 0
 
+    # Prioritize newest entries first so a brand-new entry gets archived on
+    # the merge that introduces it. Older (migrated) entries gradually
+    # backfill via subsequent runs.
+    candidates.sort(
+        key=lambda x: x[1]["fields"].get("date_added") or "1970-01-01",
+        reverse=True,
+    )
+
     take = candidates[:MAX_PER_RUN]
     skipped = len(candidates) - len(take)
     print(f"archiving {len(take)} entries this run ({skipped} deferred to next run)")
