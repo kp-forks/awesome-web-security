@@ -197,7 +197,7 @@ entries:
     title: 指尖安全
     author:
       name: 指尖安全
-      url: 指尖安全
+      url: null
     category: forums
     type: article
     languages: [zh]
@@ -207,7 +207,7 @@ entries:
     last_checked: null
     fingerprint: null
     status: active
-    raw_rest: "垂直互联网安全媒体 by [指尖安全](指尖安全)."
+    raw_rest: "垂直互联网安全媒体."
   - id: forums-beta
     url: "https://pockr.org/"
     title: 破壳（Beta）

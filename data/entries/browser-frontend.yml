@@ -119,7 +119,7 @@ entries:
     title: "How do we Stop Spilling the Beans Across Origins?"
     author:
       name: aaj at google.com
-      url: "aaj@google.com"
+      url: "mailto:aaj@google.com"
     category: browser-frontend
     type: article
     languages: [en, zh, jp]
@@ -129,7 +129,7 @@ entries:
     last_checked: null
     fingerprint: null
     status: active
-    raw_rest: "Written by [aaj at google.com](aaj@google.com) and [mkwst at google.com](mkwst@google.com)."
+    raw_rest: "Written by [aaj at google.com](mailto:aaj@google.com) and [mkwst at google.com](mailto:mkwst@google.com)."
   - id: browser-frontend-setting-arbitrary-request-headers-in-chromium-via
     url: "https://blog.bentkowski.info/2018/06/setting-arbitrary-request-headers-in.html"
     title: Setting arbitrary request headers in Chromium via CRLF injection

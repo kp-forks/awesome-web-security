@@ -327,7 +327,7 @@ entries:
     title: Escape and Evasion Egressing Restricted Networks
     author:
       name: "Chris Patten, Tom Steele"
-      url: "info@optiv.com"
+      url: "mailto:info@optiv.com"
     category: miscellaneous
     type: article
     languages: [en, zh, jp]
@@ -337,7 +337,7 @@ entries:
     last_checked: null
     fingerprint: null
     status: active
-    raw_rest: "Written by [Chris Patten, Tom Steele](info@optiv.com)."
+    raw_rest: "Written by [Chris Patten, Tom Steele](mailto:info@optiv.com)."
   - id: miscellaneous-domato-fuzzers-generation-engine-internals
     url: "https://www.sigpwn.io/blog/2018/4/14/domato-fuzzers-generation-engine-internals"
     title: "Domato Fuzzer's Generation Engine Internals"

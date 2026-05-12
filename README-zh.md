@@ -147,7 +147,7 @@ If you enjoy this awesome list and would like to support it, check out my [Patre
 - [The Register](http://www.theregister.co.uk/) - Biting the hand that feeds IT.
 - [安全客](https://www.anquanke.com/) - 有思想的安全新媒体 by [360网络攻防实验室](https://weibo.com/360adlab).
 - [安全脉搏](https://www.secpulse.com/) - Blog for Security things.
-- [指尖安全](https://www.secfree.com/) - 垂直互联网安全媒体 by [指尖安全](指尖安全).
+- [指尖安全](https://www.secfree.com/) - 垂直互联网安全媒体.
 - [破壳（Beta）](https://pockr.org/) - 能看漏洞报告的安全社区 by [SOBUG漏洞悬赏平台](https://sobug.com/).
 - [长亭技术专栏](https://zhuanlan.zhihu.com/chaitin-tech) - 安全攻防技术分享 by [长亭科技](https://www.chaitin.cn/zh/).
 
@@ -593,7 +593,7 @@ If you enjoy this awesome list and would like to support it, check out my [Patre
 - [SOP bypass / UXSS – Stealing Credentials Pretty Fast (Edge)](https://www.brokenbrowser.com/sop-bypass-uxss-stealing-credentials-pretty-fast/) - Written by [Manuel](https://twitter.com/magicmac2000).
 - [Особенности Safari в client-side атаках](https://bo0om.ru/safari-client-side) - Written by [Bo0oM](https://bo0om.ru/author/admin).
 - [浏览器漏洞挖掘思路](https://zhuanlan.zhihu.com/p/28719766) - Written by [Twosecurity](https://twosecurity.io/).
-- [How do we Stop Spilling the Beans Across Origins?](https://docs.google.com/document/d/1cbL-X0kV_tQ5rL8XJ3lXkV-j0pt_CfTu5ZSzYrncPDc/) - Written by [aaj at google.com](aaj@google.com) and [mkwst at google.com](mkwst@google.com).
+- [How do we Stop Spilling the Beans Across Origins?](https://docs.google.com/document/d/1cbL-X0kV_tQ5rL8XJ3lXkV-j0pt_CfTu5ZSzYrncPDc/) - Written by [aaj at google.com](mailto:aaj@google.com) and [mkwst at google.com](mailto:mkwst@google.com).
 - [Setting arbitrary request headers in Chromium via CRLF injection](https://blog.bentkowski.info/2018/06/setting-arbitrary-request-headers-in.html) - Written by [Michał Bentkowski](https://blog.bentkowski.info/).
 - [I’m harvesting credit card numbers and passwords from your site. Here’s how.](https://hackernoon.com/im-harvesting-credit-card-numbers-and-passwords-from-your-site-here-s-how-9a8cb347c5b5) - Written by [David Gilbertson](https://hackernoon.com/@david.gilbertson).
 - [The inception bar: a new phishing method](https://jameshfisher.com/2019/04/27/the-inception-bar-a-new-phishing-method/) - Written by [jameshfisher](https://jameshfisher.com/).
@@ -605,7 +605,7 @@ If you enjoy this awesome list and would like to support it, check out my [Patre
 
 ### Backend (core of Browser implementation, and often refers to C or C++ part)
 
-- [Attacking JavaScript Engines - A case study of JavaScriptCore and CVE-2016-4622](http://www.phrack.org/papers/attacking_javascript_engines.html) - Written by [phrack@saelo.net](phrack@saelo.net).
+- [Attacking JavaScript Engines - A case study of JavaScriptCore and CVE-2016-4622](http://www.phrack.org/papers/attacking_javascript_engines.html) - Written by [phrack@saelo.net](mailto:phrack@saelo.net).
 - [Exploiting a V8 OOB write.](https://halbecaf.com/2017/05/24/exploiting-a-v8-oob-write/) - Written by [@halbecaf](https://twitter.com/halbecaf).
 - [SSD Advisory – Chrome Turbofan Remote Code Execution](https://blogs.securiteam.com/index.php/archives/3379) - Written by [SecuriTeam Secure Disclosure (SSD)](https://blogs.securiteam.com/).
 - [Look Mom, I don't use Shellcode - Browser Exploitation Case Study for Internet Explorer 11](https://labs.bluefrostsecurity.de/files/Look_Mom_I_Dont_Use_Shellcode-WP.pdf) - Written by [@moritzj](http://twitter.com/moritzj).
@@ -673,7 +673,7 @@ If you enjoy this awesome list and would like to support it, check out my [Patre
 - [ZoomEye](https://www.zoomeye.org/) - Cyberspace Search Engine by [@zoomeye_team](https://twitter.com/zoomeye_team).
 - [傻蛋联网设备搜索](https://www.oshadan.com/) - 监测互联网基础设施安全威胁 by [@傻蛋搜索](http://weibo.com/shadansou).
 - [Databases - start.me](https://start.me/p/QRENnO/databases) - Various databases which you can use for your OSINT research by [@technisette](https://twitter.com/technisette).
-- [peoplefindThor](https://peoplefindthor.dk/) - the easy way to find people on Facebook by [postkassen](mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk comments).
+- [peoplefindThor](https://peoplefindthor.dk/) - the easy way to find people on Facebook by [postkassen](mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk%20comments).
 - [tinfoleak](https://github.com/vaguileradiaz/tinfoleak) - The most complete open-source tool for Twitter intelligence analysis by [@vaguileradiaz](https://github.com/vaguileradiaz).
 - [Photon](https://github.com/s0md3v/Photon) - Incredibly fast crawler designed for OSINT by [@s0md3v](https://github.com/s0md3v).
 - [ReconDog](https://github.com/s0md3v/ReconDog) - Reconnaissance Swiss Army Knife by [@s0md3v](https://github.com/s0md3v).
@@ -918,7 +918,7 @@ If you enjoy this awesome list and would like to support it, check out my [Patre
 - [How I exploited ACME TLS-SNI-01 issuing Let's Encrypt SSL-certs for any domain using shared hosting](https://labs.detectify.com/2018/01/12/how-i-exploited-acme-tls-sni-01-issuing-lets-encrypt-ssl-certs-for-any-domain-using-shared-hosting/) - Written by [@fransrosen](https://twitter.com/fransrosen).
 - [TL:DR: VPN leaks users’ IPs via WebRTC. I’ve tested seventy VPN providers and 16 of them leaks users’ IPs via WebRTC (23%)](https://voidsec.com/vpn-leak/) - Written by [voidsec](https://voidsec.com/).
 - [Be careful what you copy: Invisibly inserting usernames into text with Zero-Width Characters](https://medium.com/@umpox/be-careful-what-you-copy-invisibly-inserting-usernames-into-text-with-zero-width-characters-18b4e6f17b66) - Written by [@umpox](https://medium.com/@umpox).
-- [Escape and Evasion Egressing Restricted Networks](https://www.optiv.com/blog/escape-and-evasion-egressing-restricted-networks) - Written by [Chris Patten, Tom Steele](info@optiv.com).
+- [Escape and Evasion Egressing Restricted Networks](https://www.optiv.com/blog/escape-and-evasion-egressing-restricted-networks) - Written by [Chris Patten, Tom Steele](mailto:info@optiv.com).
 - [Domato Fuzzer's Generation Engine Internals](https://www.sigpwn.io/blog/2018/4/14/domato-fuzzers-generation-engine-internals) - Written by [sigpwn](https://www.sigpwn.io/).
 - [CSS Is So Overpowered It Can Deanonymize Facebook Users](https://www.evonide.com/side-channel-attacking-browsers-through-css3-features/) - Written by [Ruslan Habalov](https://www.evonide.com/).
 - [Introduction to Web Application Security](https://www.slideshare.net/nragupathy/introduction-to-web-application-security-blackhoodie-us-2018) - Written by [@itsC0rg1](https://twitter.com/itsC0rg1), [@jmkeads](https://twitter.com/jmkeads) and [@matir](https://twitter.com/matir).

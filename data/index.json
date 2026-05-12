@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-11T19:01:54Z",
+  "generated_at": "2026-05-12T01:40:39Z",
   "categories": [
     {
       "key": "digests",
@@ -1206,7 +1206,7 @@
       "title": "Attacking JavaScript Engines - A case study of JavaScriptCore and CVE-2016-4622",
       "author": {
         "name": "phrack@saelo.net",
-        "url": "phrack@saelo.net"
+        "url": "mailto:phrack@saelo.net"
       },
       "category": "browser-backend",
       "type": "article",
@@ -1596,7 +1596,7 @@
       "title": "How do we Stop Spilling the Beans Across Origins?",
       "author": {
         "name": "aaj at google.com",
-        "url": "aaj@google.com"
+        "url": "mailto:aaj@google.com"
       },
       "category": "browser-frontend",
       "type": "article",
@@ -3643,7 +3643,7 @@
       "title": "指尖安全",
       "author": {
         "name": "指尖安全",
-        "url": "指尖安全"
+        "url": null
       },
       "category": "forums",
       "type": "article",
@@ -4217,7 +4217,7 @@
       "title": "Escape and Evasion Egressing Restricted Networks",
       "author": {
         "name": "Chris Patten, Tom Steele",
-        "url": "info@optiv.com"
+        "url": "mailto:info@optiv.com"
       },
       "category": "miscellaneous",
       "type": "article",
@@ -7208,7 +7208,7 @@
       "title": "peoplefindThor",
       "author": {
         "name": "postkassen",
-        "url": "mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk comments"
+        "url": "mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk%20comments"
       },
       "category": "tools-osint",
       "type": "tool",

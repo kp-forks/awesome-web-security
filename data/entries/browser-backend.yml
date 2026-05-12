@@ -7,7 +7,7 @@ entries:
     title: Attacking JavaScript Engines - A case study of JavaScriptCore and CVE-2016-4622
     author:
       name: "phrack@saelo.net"
-      url: "phrack@saelo.net"
+      url: "mailto:phrack@saelo.net"
     category: browser-backend
     type: article
     languages: [en, zh, jp]
@@ -17,7 +17,7 @@ entries:
     last_checked: null
     fingerprint: null
     status: active
-    raw_rest: "Written by [phrack@saelo.net](phrack@saelo.net)."
+    raw_rest: "Written by [phrack@saelo.net](mailto:phrack@saelo.net)."
   - id: browser-backend-exploiting-a-v8-oob-write
     url: "https://halbecaf.com/2017/05/24/exploiting-a-v8-oob-write/"
     title: Exploiting a V8 OOB write.

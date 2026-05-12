@@ -48,7 +48,6 @@ jobs:
             README.md
             README-zh.md
             README-jp.md
-            data/index.json
           fail: false
           output: lychee-report.md
 

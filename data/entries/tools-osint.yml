@@ -247,7 +247,7 @@ entries:
     title: peoplefindThor
     author:
       name: postkassen
-      url: "mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk comments"
+      url: "mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk%20comments"
     category: tools-osint
     type: tool
     languages: [en, zh, jp]
@@ -257,7 +257,7 @@ entries:
     last_checked: null
     fingerprint: null
     status: active
-    raw_rest: "the easy way to find people on Facebook by [postkassen](mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk comments)."
+    raw_rest: "the easy way to find people on Facebook by [postkassen](mailto:postkassen@oejvind.dk?subject=peoplefindthor.dk%20comments)."
   - id: tools-osint-tinfoleak
     url: "https://github.com/vaguileradiaz/tinfoleak"
     title: tinfoleak
