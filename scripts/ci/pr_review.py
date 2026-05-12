@@ -106,7 +106,7 @@ def changed_yaml_files() -> list[Path]:
 
 
 def added_entries_in_pr() -> list[dict]:
-    """Return list of entry dicts added or modified in this PR."""
+    """Return list of entry dicts newly added in this PR (by id not present in base)."""
     base = os.environ.get("GITHUB_BASE_REF") or "master"
     results: list[dict] = []
     for fp in changed_yaml_files():
