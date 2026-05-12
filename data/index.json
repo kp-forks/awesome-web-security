@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-12T01:40:39Z",
+  "generated_at": "2026-05-12T01:48:56Z",
   "categories": [
     {
       "key": "digests",
@@ -2723,7 +2723,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2020-07-28",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260512014633/https://tldrsec.com/",
       "last_checked": null,
       "status": "active"
     },
@@ -3793,7 +3793,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2020-07-28",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260508020522/https://semgrep.dev/",
       "last_checked": null,
       "status": "active"
     },
