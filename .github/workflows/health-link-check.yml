@@ -13,7 +13,6 @@ on:
       - 'README.md'
       - 'README-zh.md'
       - 'README-jp.md'
-      - 'data/index.json'
   schedule:
     # Daily at 12:00 UTC, working days only
     - cron: '0 12 * * 1-5'

@@ -14,7 +14,30 @@ Needless to say, most websites suffer from various types of bugs which may event
 
 ---
 
-If you enjoy this awesome list and would like to support it, check out my [Patreon](https://www.patreon.com/boik) page :)<br>Also, don't forget to check out my [repos](https://github.com/qazbnm456) 🐾 or say *hi* on my [Twitter](https://twitter.com/qazbnm456)!
+If you enjoy this awesome list and would like to support it, check out my [Patreon](https://www.patreon.com/boik) page :)<br>Also, don't forget to check out my [repos](https://github.com/qazbnm456) 🐾 or say *hi* on [X (formerly Twitter)](https://x.com/boik_su)!
+
+---
+
+### 🤖 Using an AI assistant?
+
+This list also ships as a Claude Code Skill so AI agents can query it at runtime — no stale snapshot, always reads the latest `data/index.json` from `master`.
+
+**Install** (one-liner, recommended):
+
+```bash
+npx skills add qazbnm456/awesome-web-security -a claude-code -g -y
+```
+
+Or inside [Claude Code](https://claude.com/claude-code), use the plugin marketplace:
+
+```text
+/plugin marketplace add qazbnm456/awesome-web-security
+/plugin install awesome-web-security
+```
+
+For [Codex](https://github.com/openai/codex), swap `-a claude-code` → `-a codex`.
+
+Then ask any web-security question and the skill activates on topics like XSS, SQLi, SSRF, JWT, OAuth, recon, WAF evasion, deserialization, SAML, CTF write-ups, and more. See [`skills/awesome-web-security/SKILL.md`](skills/awesome-web-security/SKILL.md) for the full trigger list.
 
 
 ## Contents
