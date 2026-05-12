@@ -95,7 +95,7 @@ def gh_api(path: str, *, method: str = "GET", data: dict | None = None) -> tuple
 
 def changed_yaml_files() -> list[Path]:
     """Files changed in this PR under data/entries/*.yml."""
-    base = os.environ.get("GITHUB_BASE_REF", "master")
+    base = os.environ.get("GITHUB_BASE_REF") or "master"
     subprocess.run(["git", "fetch", "origin", base], cwd=WORKDIR,
                    capture_output=True, check=False)
     out = subprocess.run(
@@ -107,7 +107,7 @@ def changed_yaml_files() -> list[Path]:
 
 def added_entries_in_pr() -> list[dict]:
     """Return list of entry dicts added or modified in this PR."""
-    base = os.environ.get("GITHUB_BASE_REF", "master")
+    base = os.environ.get("GITHUB_BASE_REF") or "master"
     results: list[dict] = []
     for fp in changed_yaml_files():
         if not fp.exists():
