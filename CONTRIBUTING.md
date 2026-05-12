@@ -9,6 +9,7 @@ Please note that this project is released with a [Contributor Code of Conduct](h
 - [Editing the data](#editing-the-data)
 - [Quality standard](#quality-standard)
 - [Pull request guidelines](#pull-request-guidelines)
+- [Maintainer notes](#maintainer-notes)
 
 # How contributions are reviewed
 
@@ -19,6 +20,13 @@ makes the final merge decision. Disagree with the bot? Reply on the PR and
 tag `@qazbnm456`.
 
 # Two ways to contribute
+
+> **Note:** this repo migrated to a YAML-first data model in early 2026.
+> Direct `README.md` edits no longer land cleanly — CI checks that the
+> generated READMEs match the YAML source. If you have a pre-migration
+> PR open, no action needed: we'll port your entry on your branch when
+> the backlog reaches it, so your PR can still merge with full
+> attribution intact.
 
 **1. Open an issue with the proposal form.**
 Faster for one-off suggestions. Use the
@@ -82,5 +90,43 @@ Read [RUBRIC.md](RUBRIC.md) for the exact scoring criteria the bot applies.
 - Trailing whitespace, mixed line endings, and broken anchors are rejected by
   CI; please run `python3 scripts/verify_anchors.py` if you change category
   structure.
+
+# Maintainer notes
+
+## Porting a legacy README-shape PR
+
+Some PRs predate the YAML migration and edit `README.md` directly. To
+merge those while preserving the contributor's authorship signal:
+
+1. `gh pr checkout <N>` — fetches the contributor's fork branch.
+2. `python3 scripts/ci/port_legacy_pr.py <N>` — extracts title / URL /
+   description from the diff and emits a YAML entry stub. The script
+   also prints a `Co-authored-by:` trailer with the contributor's
+   numeric GitHub ID, ready for the squash-merge body.
+3. `git merge master --no-edit` — brings the YAML data model into the
+   branch. Resolve the inevitable `README.md` conflict by taking
+   `master`'s version: `git checkout --ours README.md && git add
+   README.md && git commit --no-edit`. The contributor's hand-edited
+   line is implicitly superseded because the README is now generated.
+4. Add the new entry to `data/entries/<category>.yml` using the script's
+   stub, then run `python3 scripts/generate.py` and the verify scripts.
+5. Commit the port and push to the contributor's fork:
+   `git push <fork-url> <branch>:<branch>`.
+6. Once CI is green, squash-merge via `gh pr merge <N> --squash` with
+   an explicit `--subject` and a `--body` that ends with the
+   `Co-authored-by:` trailer.
+
+GitHub's squash-merge picks the first commit's author (the contributor)
+as the squash commit's primary author, so the contributor keeps their
+**Merged PRs** counter, the **merged** badge on the PR, and primary
+authorship of the merge commit on `master`. The `Co-authored-by:`
+trailer is belt-and-braces credit.
+
+Note: the PR auto-review bot does not post comments on PRs from forks
+— GitHub silently downgrades `GITHUB_TOKEN` to read-only for
+`pull_request` events from forks, and this repo intentionally does not
+use `pull_request_target` (security-sensitive). The bot still grades
+internally for the workflow log; the maintainer's manual review during
+port covers the same rubric dimensions.
 
 Thanks for contributing!
