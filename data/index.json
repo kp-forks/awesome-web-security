@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-12T07:37:26Z",
+  "generated_at": "2026-05-12T07:48:27Z",
   "categories": [
     {
       "key": "digests",
@@ -7670,7 +7670,7 @@
       ],
       "difficulty": "intro",
       "date_added": "2026-05-12",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260512074343/https://www.bunkerweb.io/",
       "last_checked": null,
       "status": "active"
     },
