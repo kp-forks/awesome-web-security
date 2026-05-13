@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-13T06:14:49Z",
+  "generated_at": "2026-05-13T06:17:39Z",
   "categories": [
     {
       "key": "digests",
@@ -7466,7 +7466,7 @@
       ],
       "difficulty": "intro",
       "date_added": "2026-05-12",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260513061543/https://github.com/bad-antics/marshall-extensions",
       "last_checked": null,
       "status": "active"
     },
