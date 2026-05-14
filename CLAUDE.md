@@ -154,11 +154,32 @@ controls where it shows up:
   "match" the structure. Each README is allowed to have entries the others
   don't.
 
-## Driving the Copilot Coding Agent
+## Handling new resource requests
 
-The maintainer's standard workflow for an Issue Form submission is to
-assign `@copilot` and let it open a PR. Use this prompt shape when you
-need to bridge from a structured issue to a YAML entry:
+Two kinds of inbound requests, both ported into the YAML data model
+the same way the 2026 backlog was cleared:
+
+**Issue Form submission** (`.github/ISSUE_TEMPLATE/propose-resource.yml`)
+— the contributor filed an issue, not a PR. Port it directly: add the
+entry to `data/entries/<category>.yml`, run `python3
+scripts/generate.py` and the verify scripts, commit to `master` with
+`Closes #<n>` and a `Co-authored-by:` trailer crediting the submitter.
+They never had a branch, so the co-author trailer is their credit.
+
+**Direct pull request** (contributor edited `README.md` or the YAML
+directly) — port on *their* branch so their PR merges with full
+attribution. See CONTRIBUTING.md "Maintainer notes" for the six-step
+Path B playbook. Never route a direct PR through Copilot: Copilot
+opens its own PR and closes the contributor's unmerged, destroying
+their merged-PR credit.
+
+### Copilot as async fallback
+
+Copilot is the fallback for **Issue Form submissions only**, when the
+maintainer is unavailable for an extended period and the queue needs
+to keep moving. It is not the standard workflow — the manual port
+above is. The maintainer still reviews the resulting Copilot PR before
+merge; Copilot saves the typing, not the judgment. Prompt shape:
 
 ```
 @copilot please port this resource into the new YAML data model.
@@ -167,23 +188,26 @@ Add it to `data/entries/<TARGET>.yml` with:
 - url, title, author.name, author.url (from the issue fields)
 - type: <article|tool|cheatsheet|video|book|community|payload-list>
 - difficulty: <intro|intermediate|advanced>
-- languages: [en] (or [en, zh, jp] for universal; never use [universal] as
-  the single value without confirming with the maintainer)
+- languages: [en, zh, jp] unless the resource is locale-specific
+  (then [zh] or [jp]); never [universal] as the sole value without
+  confirming with the maintainer
 - status: active
 
 Set `raw_rest` to a one-sentence factual description of the resource
 itself, optionally followed by a `Written by [Author](url)` byline. Do
 NOT mention this project, the issue number, the PR number, or any
-internal metadata in `raw_rest`. Attribution lives in git history and
-in the PR body's `Closes #<n>` line, not in the README text.
+internal metadata in `raw_rest`.
+
+End the PR body with both:
+  Closes #<n>
+  Co-authored-by: <issue-author> <ID+login@users.noreply.github.com>
 
 Run `python3 scripts/generate.py` and `python3 scripts/verify_schema.py`
-before opening the PR. Close the issue from the PR body with
-`Closes #<n>`.
+before opening the PR.
 ```
 
-Adjust `<TARGET>`, `type`, `difficulty`, `languages`, and which issue
-number to close per case.
+Adjust `<TARGET>`, `type`, `difficulty`, `languages`, the issue
+number, and the co-author identity per case.
 
 ## Things not to do
 
