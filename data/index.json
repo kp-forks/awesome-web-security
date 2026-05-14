@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-14T06:57:14Z",
+  "generated_at": "2026-05-14T07:01:27Z",
   "categories": [
     {
       "key": "digests",
@@ -7731,7 +7731,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2026-05-14",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260514052501/https://github.com/FrancescoStabile/numasec",
       "last_checked": null,
       "status": "active"
     },
