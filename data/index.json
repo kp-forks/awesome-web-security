@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-14T06:48:20Z",
+  "generated_at": "2026-05-14T06:54:15Z",
   "categories": [
     {
       "key": "digests",
@@ -4625,7 +4625,7 @@
       ],
       "difficulty": "intermediate",
       "date_added": "2026-05-14",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260514053737/https://github.com/momenbasel/htb-writeups",
       "last_checked": null,
       "status": "active"
     },
@@ -7014,7 +7014,7 @@
       ],
       "difficulty": "intro",
       "date_added": "2026-05-14",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260514053423/https://github.com/momenbasel/keyFinder",
       "last_checked": null,
       "status": "active"
     },
@@ -7940,7 +7940,7 @@
       ],
       "difficulty": "intro",
       "date_added": "2026-05-14",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260514051339/https://github.com/hamzaydia/verifyfetch",
       "last_checked": null,
       "status": "active"
     },
@@ -7961,7 +7961,7 @@
       ],
       "difficulty": "intro",
       "date_added": "2026-05-14",
-      "archive_url": null,
+      "archive_url": "https://web.archive.org/web/20260514064956/https://csp-generator.shakiltech.com/",
       "last_checked": null,
       "status": "active"
     },
