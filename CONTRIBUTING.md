@@ -129,4 +129,37 @@ use `pull_request_target` (security-sensitive). The bot still grades
 internally for the workflow log; the maintainer's manual review during
 port covers the same rubric dimensions.
 
+## Triaging broken links
+
+`health-link-check.yml` runs lychee daily and collects broken links into
+a single rolling issue. `scripts/ci/triage_dead_links.py` re-probes that
+list to tell *permanently dead* (domain gone, content deleted) apart from
+*transiently unreachable* (the CI runner's IP was blocked, rate-limited,
+or the server was briefly slow), cross-references the Wayback Machine,
+and buckets every URL into a disposition recommendation.
+
+```
+python3 scripts/ci/triage_dead_links.py              # report-only (default)
+python3 scripts/ci/triage_dead_links.py --apply-archived-only
+```
+
+Disposition uses the schema's `status` field: a dead-but-archived entry
+becomes `archived-only` (dropped from the READMEs, kept in
+`data/index.json` with its `archive_url`), not deleted — the
+`archive_url` we already store is the safety net. Genuine deletion is
+reserved for "dead AND no archive anywhere", and the script only ever
+*recommends* that — never deletes. `--apply-archived-only` is opt-in and
+only flips the unambiguous "dead + already has `archive_url`" cases.
+
+The script connects to hundreds of servers from a public list, some of
+which may have expired and been re-registered by hostile parties, so it
+is hardened: http/https only, a client-side pre-filter that refuses
+internal/reserved IP-literal hosts, manual redirect handling with the
+pre-filter re-run per hop, no response body ever read, strict timeouts,
+no credentials. Run it directly in a normal environment. In a fake-ip or
+MITM-proxy VPN environment (where the system resolver returns bogus IPs),
+pass `--proxy http://HOST:PORT` pointing at the VPN tool's local HTTP
+proxy so the proxy owns DNS + egress; `--ca-bundle` overrides CA
+auto-detection if needed.
+
 Thanks for contributing!
