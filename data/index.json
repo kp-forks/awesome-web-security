@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-14T06:45:46Z",
+  "generated_at": "2026-05-14T06:48:20Z",
   "categories": [
     {
       "key": "digests",
@@ -4598,7 +4598,9 @@
       "category": "miscellaneous",
       "type": "book",
       "languages": [
-        "en"
+        "en",
+        "zh",
+        "jp"
       ],
       "difficulty": "intro",
       "date_added": "2026-05-12",

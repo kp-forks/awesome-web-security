@@ -618,7 +618,7 @@ entries:
       url: null
     category: miscellaneous
     type: book
-    languages: [en]
+    languages: [en, zh, jp]
     difficulty: intro
     date_added: "2026-05-12"
     archive_url: "https://web.archive.org/web/20260512090417/https://www.manning.com/books/grokking-web-application-security"
