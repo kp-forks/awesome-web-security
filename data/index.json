@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-05-14T06:54:15Z",
+  "generated_at": "2026-05-14T06:57:14Z",
   "categories": [
     {
       "key": "digests",
@@ -7962,6 +7962,27 @@
       "difficulty": "intro",
       "date_added": "2026-05-14",
       "archive_url": "https://web.archive.org/web/20260514064956/https://csp-generator.shakiltech.com/",
+      "last_checked": null,
+      "status": "active"
+    },
+    {
+      "id": "tools-preventing-crowdsec",
+      "url": "https://www.crowdsec.net/",
+      "title": "CrowdSec",
+      "author": {
+        "name": "CrowdSec",
+        "url": "https://github.com/crowdsecurity"
+      },
+      "category": "tools-preventing",
+      "type": "tool",
+      "languages": [
+        "en",
+        "zh",
+        "jp"
+      ],
+      "difficulty": "intro",
+      "date_added": "2026-05-14",
+      "archive_url": null,
       "last_checked": null,
       "status": "active"
     },

@@ -178,3 +178,19 @@ entries:
     fingerprint: null
     status: active
     raw_rest: "Interactive Content Security Policy builder for Laravel that outputs ready-to-use PHP middleware with nonce support and violation reporting, by [@itxshakil](https://github.com/itxshakil)."
+  - id: tools-preventing-crowdsec
+    url: "https://www.crowdsec.net/"
+    title: CrowdSec
+    author:
+      name: CrowdSec
+      url: "https://github.com/crowdsecurity"
+    category: tools-preventing
+    type: tool
+    languages: [en, zh, jp]
+    difficulty: intro
+    date_added: "2026-05-14"
+    archive_url: null
+    last_checked: null
+    fingerprint: null
+    status: active
+    raw_rest: "Open-source collaborative IPS written in Go that analyzes visitor behavior and shares threat signals across a community of operators, maintained by [CrowdSec](https://github.com/crowdsecurity)."
