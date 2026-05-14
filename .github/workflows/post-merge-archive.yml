@@ -47,7 +47,13 @@ jobs:
 
       - name: Commit back if anything changed
         run: |
-          if git diff --quiet data/entries/ data/index.json README.md README-zh.md README-jp.md; then
+          # Gate on data/entries/ only — that's where archive_url actually
+          # lives. data/index.json and the generated READMEs always
+          # update their `generated_at` timestamp when generate.py runs,
+          # which would otherwise produce a noise commit on every run
+          # that achieved zero archive_url additions (e.g. when Wayback
+          # is rate-limiting or down).
+          if git diff --quiet data/entries/; then
             echo "no archive_url updates this run"
             exit 0
           fi
